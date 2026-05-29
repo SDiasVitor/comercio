@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Negócios - MáquinasMax</title>
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+    <style>
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .history-item {
+            background: white;
+            border-radius: 10px;
+            display: flex;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border: 1px solid #eee;
+        }
+        .item-img {
+            width: 180px;
+            height: 130px;
+            background: #ddd;
+        }
+        .item-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .item-info {
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .item-info h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: var(--dark);
+        }
+        .item-info p {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-inner">
+            <a href="../../index.html" class="logo">MáquinasMax</a>
+            <div style="flex: 1;"></div>
+            <div class="header-icons">
+                <a href="#" title="Buscar">🔍</a>
+                <a href="../checkout/locacoes.html" title="Carrinho">🛒</a>
+                <a href="../auth/login.html" title="Perfil">👤</a>
+            </div>
+        </div>
+    </header>
+
+    <nav class="sub-nav" style="justify-content: center; gap: 15px;">
+        <button class="btn-tab" onclick="window.location.href='pagina-meus-anuncios.html'" style="border: none; background: white;">
+            📢 Meus Anúncios
+        </button>
+        <button class="btn-tab active" style="border: none; background: white; color: var(--dark); font-weight: 700; border-bottom: 2px solid var(--primary);">
+            🔑 Meus Aluguéis
+        </button>
+    </nav>
+
+    <main style="max-width: 900px; margin: 0 auto; padding: 40px 5%; width: 100%;">
+        <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 30px;">
+            <div style="width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 25px; color: var(--primary); border: 1px solid #eee;">⏱️</div>
+            <h2>Histórico de Negócios</h2>
+        </div>
+
+        <div class="history-list" id="listaHistorico">
+            <!-- Preenchido pelo JavaScript -->
+        </div>
+
+        <div style="text-align: center; margin-top: 40px; color: #888; font-size: 14px;">
+            <p>Mostrando últimos 30 dias de transações</p>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2025 MáquinasMax — Compra, Venda e Aluguel de Máquinas Pesadas</p>
+    </footer>
+
+    <script src="../../js/main.js"></script>
+    <script>
+        const dadosNegocios = [
+            {
+                titulo: "Escavadeira Hidráulica CAT 320",
+                info: "Vendido para: João Silva em 12/03/2025. Valor: R$ 850.000,00",
+                tipo: "venda",
+                img: "https://via.placeholder.com/180x130?text=Escavadeira"
+            },
+            {
+                titulo: "Trator John Deere 5078E",
+                info: "Alugado para: Construtora Alfa. Período: 10 dias. Total: R$ 10.000,00",
+                tipo: "aluguel",
+                img: "https://via.placeholder.com/180x130?text=Trator"
+            },
+            {
+                titulo: "Betoneira Toyama 400L",
+                info: "Vendido para: Maria Souza em 05/02/2025. Valor: R$ 8.500,00",
+                tipo: "venda",
+                img: "https://via.placeholder.com/180x130?text=Betoneira"
+            }
+        ];
+
+        function carregarHistorico() {
+            const lista = document.getElementById('listaHistorico');
+            
+            lista.innerHTML = dadosNegocios.map(item => `
+                <div class="history-item">
+                    <div class="item-img">
+                        <img src="${item.img}" alt="${item.titulo}">
+                    </div>
+                    <div class="item-info">
+                        <span class="status-badge ${item.tipo === 'venda' ? 'status-venda' : 'status-aluguel'}">
+                            ${item.tipo}
+                        </span>
+                        <h3>${item.titulo}</h3>
+                        <p>${item.info}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        window.addEventListener('load', carregarHistorico);
+    </script>
+</body>
+</html>

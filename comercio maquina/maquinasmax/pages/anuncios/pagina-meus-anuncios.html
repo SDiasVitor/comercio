@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Anúncios - MáquinasMax</title>
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+    <style>
+        .ads-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .ad-item {
+            background: white;
+            border-radius: 10px;
+            display: flex;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border: 1px solid #eee;
+        }
+        .ad-image {
+            width: 220px;
+            height: 150px;
+            background: #eee;
+        }
+        .ad-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .ad-details {
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .ad-details h3 {
+            font-size: 19px;
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+        .ad-details p {
+            font-size: 14px;
+            color: #777;
+            margin-bottom: 15px;
+        }
+        .price-tag {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-inner">
+            <a href="../../index.html" class="logo">MáquinasMax</a>
+            <div style="flex: 1;"></div>
+            <div class="header-icons">
+                <a href="#" title="Buscar">🔍</a>
+                <a href="../checkout/locacoes.html" title="Carrinho">🛒</a>
+                <a href="../auth/login.html" title="Perfil">👤</a>
+            </div>
+        </div>
+    </header>
+
+    <nav class="sub-nav" style="justify-content: center; gap: 15px;">
+        <button class="btn-tab active" style="border: none; background: white; color: var(--dark); font-weight: 700; border-bottom: 2px solid var(--primary);">
+            📢 Meus Anúncios
+        </button>
+        <button class="btn-tab" onclick="window.location.href='pagina-meus-alugueis.html'" style="border: none; background: white;">
+            🔑 Meus Aluguéis
+        </button>
+    </nav>
+
+    <main style="max-width: 900px; margin: 0 auto; padding: 40px 5%; width: 100%;">
+        <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 30px;">
+            <div style="width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 25px; color: var(--primary); border: 1px solid #eee;">📢</div>
+            <h2>Gerenciar Meus Anúncios</h2>
+        </div>
+
+        <div class="ads-list" id="meusAnuncios">
+            <!-- Preenchido pelo JavaScript -->
+        </div>
+
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="pagina-anunciar.html" class="btn-laranja" style="display: inline-block; text-decoration: none; padding: 12px 40px;">+ Novo Anúncio</a>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2025 MáquinasMax — Compra, Venda e Aluguel de Máquinas Pesadas</p>
+    </footer>
+
+    <script src="../../js/main.js"></script>
+    <script>
+        console.log('✓ Página Meus Anúncios carregada');
+
+        function renderizarAnuncios() {
+            const container = document.getElementById('meusAnuncios');
+            
+            try {
+                // Carregar anúncios do localStorage
+                let anuncios = JSON.parse(localStorage.getItem('meus_anuncios_maquinasmax')) || [];
+
+                console.log('📢 Anúncios carregados:', anuncios);
+
+                // Se não houver anúncios
+                if (anuncios.length === 0) {
+                    container.innerHTML = `
+                        <div style="background: white; padding: 60px 20px; text-align: center; border-radius: 12px;">
+                            <p style="font-size: 18px; color: #666; margin-bottom: 20px;">
+                                📭 Você ainda não tem anúncios criados
+                            </p>
+                            <a href="pagina-anunciar.html" class="btn-laranja" style="display: inline-block; text-decoration: none; padding: 12px 40px;">
+                                + Criar Primeiro Anúncio
+                            </a>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // Renderizar anúncios
+                container.innerHTML = anuncios.map((anuncio, index) => `
+                    <div class="ad-item">
+                        <div class="ad-image" style="background: #f0f0f0; display: flex; align-items: center; justify-content: center;">
+                            <div style="font-size: 40px;">🚜</div>
+                        </div>
+                        <div class="ad-details">
+                            <h3>${anuncio.nomeMaquina}</h3>
+                            <p>${anuncio.descricao.substring(0, 80)}...</p>
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span class="price-tag">${anuncio.valor}</span>
+                                <span style="background: rgba(247, 147, 30, 0.1); color: var(--primary); padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: 600;">
+                                    ${anuncio.tipoOperacao}
+                                </span>
+                            </div>
+                        </div>
+                        <div style="padding: 20px; display: flex; flex-direction: column; gap: 10px; justify-content: center;">
+                            <button onclick="editarAnuncio(${index})" style="background: var(--primary); color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 13px;">✏️ Editar</button>
+                            <button onclick="deletarAnuncio(${index})" style="background: #dc3545; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 13px;">🗑️ Remover</button>
+                            <button onclick="viewAnuncio(${index})" style="background: #6c757d; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 13px;">👁️ Visualizar</button>
+                        </div>
+                    </div>
+                `).join('');
+
+            } catch (error) {
+                console.error('❌ Erro ao carregar anúncios:', error);
+                container.innerHTML = '<p style="color: red;">Erro ao carregar anúncios. Tente novamente.</p>';
+            }
+        }
+
+        // Editar anúncio
+        window.editarAnuncio = function(index) {
+            alert('✏️ Funcionalidade de edição em desenvolvimento!');
+            console.log('Editar anúncio:', index);
+        };
+
+        // Deletar anúncio
+        window.deletarAnuncio = function(index) {
+            if (confirm('Tem certeza que deseja remover este anúncio?')) {
+                try {
+                    let anuncios = JSON.parse(localStorage.getItem('meus_anuncios_maquinasmax')) || [];
+                    anuncios.splice(index, 1);
+                    localStorage.setItem('meus_anuncios_maquinasmax', JSON.stringify(anuncios));
+                    
+                    console.log('✓ Anúncio removido');
+                    alert('✓ Anúncio removido com sucesso!');
+                    renderizarAnuncios();
+                } catch (error) {
+                    console.error('❌ Erro ao deletar:', error);
+                }
+            }
+        };
+
+        // Visualizar anúncio
+        window.viewAnuncio = function(index) {
+            try {
+                let anuncios = JSON.parse(localStorage.getItem('meus_anuncios_maquinasmax')) || [];
+                const anuncio = anuncios[index];
+                
+                alert(`
+📢 ANÚNCIO DE MÁQUINA
+━━━━━━━━━━━━━━━━━━
+Máquina: ${anuncio.nomeMaquina}
+Tipo: ${anuncio.tipoOperacao}
+Valor: ${anuncio.valor}
+
+Descrição:
+${anuncio.descricao}
+
+Contato:
+📧 ${anuncio.email}
+📱 ${anuncio.telefone}
+🏙️ ${anuncio.cidade}, ${anuncio.estado}
+
+ID do Anúncio: ${anuncio.id}
+Data: ${anuncio.dataAnuncio}
+                `);
+            } catch (error) {
+                console.error('❌ Erro:', error);
+            }
+        };
+
+        window.addEventListener('load', renderizarAnuncios);
+    </script>
+</body>
+</html>

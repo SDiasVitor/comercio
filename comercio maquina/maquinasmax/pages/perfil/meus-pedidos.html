@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Pedidos - MáquinasMax</title>
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+    <header>
+        <div class="header-inner">
+            <a href="../../index.html" class="logo">MáquinasMax</a>
+            <div style="flex: 1;"></div>
+            <div class="header-icons">
+                <a href="#" title="Buscar">🔍</a>
+                <a href="../checkout/locacoes.html" title="Carrinho">🛒</a>
+                <a href="minha-conta.html" title="Perfil" style="color: var(--primary);">👤</a>
+            </div>
+        </div>
+    </header>
+
+    <main style="max-width: 1000px; margin: 0 auto; padding: 40px 20px;">
+        
+        <div style="margin-bottom: 30px;">
+            <a href="minha-conta.html" style="color: var(--primary); text-decoration: none; font-weight: 600;">← Voltar ao Perfil</a>
+            <h1 style="margin: 15px 0 0 0;">📦 Meus Pedidos</h1>
+            <p style="color: #888; margin: 5px 0;">Acompanhe o status de seus pedidos e aluguéis</p>
+        </div>
+
+        <!-- FILTROS -->
+        <div style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;">
+            <button class="filtro-ativo" onclick="filtrarStatus('todos')" style="background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600;">Todos</button>
+            <button class="filtro" onclick="filtrarStatus('ativo')" style="background: #f0f0f0; border: 1px solid #ddd; padding: 10px 20px; border-radius: 6px; cursor: pointer;">Ativos</button>
+            <button class="filtro" onclick="filtrarStatus('concluido')" style="background: #f0f0f0; border: 1px solid #ddd; padding: 10px 20px; border-radius: 6px; cursor: pointer;">Concluídos</button>
+            <button class="filtro" onclick="filtrarStatus('cancelado')" style="background: #f0f0f0; border: 1px solid #ddd; padding: 10px 20px; border-radius: 6px; cursor: pointer;">Cancelados</button>
+        </div>
+
+        <!-- TABELA DE PEDIDOS -->
+        <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="background: #f5f5f5; border-bottom: 2px solid #e0e0e0;">
+                        <th style="padding: 15px; text-align: left; font-weight: 600;">Equipamento</th>
+                        <th style="padding: 15px; text-align: center; font-weight: 600;">Data</th>
+                        <th style="padding: 15px; text-align: center; font-weight: 600;">Tipo</th>
+                        <th style="padding: 15px; text-align: right; font-weight: 600;">Valor</th>
+                        <th style="padding: 15px; text-align: center; font-weight: 600;">Status</th>
+                    </tr>
+                </thead>
+                <tbody id="tabelaPedidos">
+                    <tr>
+                        <td colspan="5" style="text-align: center; padding: 40px; color: #999;">
+                            📭 Você ainda não possui pedidos. <a href="../../index.html" style="color: var(--primary);">Explorar catálogo →</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>© 2025 MáquinasMax — Compra, Venda e Aluguel de Máquinas Pesadas</p>
+    </footer>
+
+    <script src="../../js/main.js"></script>
+    <script>
+        console.log('✓ Página Meus Pedidos carregada');
+
+        function filtrarStatus(status) {
+            // Atualizar botões
+            document.querySelectorAll('.filtro').forEach(btn => {
+                btn.style.background = '#f0f0f0';
+                btn.style.color = '#333';
+            });
+            document.querySelectorAll('.filtro-ativo').forEach(btn => {
+                btn.style.background = 'var(--primary)';
+                btn.style.color = 'white';
+            });
+
+            // Implementação do filtro aqui
+            console.log('Filtro aplicado:', status);
+        }
+
+        // Carregar pedidos do carrinho (simulado)
+        function carregarPedidos() {
+            const carrinho = JSON.parse(localStorage.getItem('carrinho_maquinasmax')) || [];
+            const tabelaPedidos = document.getElementById('tabelaPedidos');
+
+            if (carrinho.length === 0) {
+                return; // Manter mensagem padrão
+            }
+
+            let html = '';
+            carrinho.forEach(item => {
+                const status = 'ativo';
+                const statusClass = status === 'ativo' ? 'status-ativo' : 'status-concluido';
+                
+                html += `
+                    <tr style="border-bottom: 1px solid #f0f0f0;">
+                        <td style="padding: 15px;">
+                            <strong>${item.nome}</strong>
+                            <br>
+                            <small style="color: #888;">Vendedor: ${item.vendedor}</small>
+                        </td>
+                        <td style="padding: 15px; text-align: center;">${item.data_adicionada || 'Hoje'}</td>
+                        <td style="padding: 15px; text-align: center;">
+                            <span style="background: rgba(247, 147, 30, 0.1); color: var(--primary); padding: 4px 12px; border-radius: 4px; font-size: 12px;">Aluguel</span>
+                        </td>
+                        <td style="padding: 15px; text-align: right; font-weight: 600;">${item.preco}</td>
+                        <td style="padding: 15px; text-align: center;">
+                            <span class="status-badge status-ativo" style="background: #e8f5e9; color: #2e7d32; display: inline-block; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;">● Ativo</span>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            if (html) {
+                tabelaPedidos.innerHTML = html;
+            }
+        }
+
+        window.addEventListener('load', carregarPedidos);
+    </script>
+</body>
+</html>

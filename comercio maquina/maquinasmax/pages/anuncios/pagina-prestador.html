@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anunciar Máquina - MáquinasMax</title>
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+    <header>
+        <div class="header-inner">
+            <a href="../../index.html" class="logo">MáquinasMax</a>
+            <div style="flex: 1;"></div>
+            <div class="header-icons">
+                <a href="#" title="Buscar">🔍</a>
+                <a href="../checkout/locacoes.html" title="Carrinho">🛒</a>
+                <a href="../auth/login.html" title="Perfil">👤</a>
+            </div>
+        </div>
+    </header>
+
+    <nav class="sub-nav" style="justify-content: center; gap: 15px;">
+        <button class="btn-tab" onclick="window.location.href='../anuncios/pagina-meus-anuncios.html'" style="border: none; background: white;">
+            📢 Meus Anúncios
+        </button>
+        <button class="btn-tab" onclick="window.location.href='../anuncios/pagina-meus-alugueis.html'" style="border: none; background: white;">
+            🔑 Meus Aluguéis
+        </button>
+    </nav>
+
+    <main style="display: flex; justify-content: center; align-items: center; min-height: calc(100vh - 150px); padding: 20px;">
+        <div style="background: white; padding: 50px 30px; border-radius: 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid #eee; max-width: 400px;">
+            <div style="width: 100px; height: 100px; background: #f8f9fa; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 45px; color: var(--primary); margin: 0 auto 25px; box-shadow: 0 4px 15px rgba(247, 147, 30, 0.3);">📢</div>
+            <h1 style="font-size: 32px; font-style: italic; color: var(--dark); margin-bottom: 35px; font-weight: 700;">Anuncie Aqui</h1>
+            <button class="btn-laranja" onclick="window.location.href='../anuncios/pagina-anunciar.html'" style="padding: 12px 50px;">PRÓXIMO</button>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2025 MáquinasMax — Compra, Venda e Aluguel de Máquinas Pesadas</p>
+    </footer>
+
+    <script src="../../js/main.js"></script>
+</body>
+</html>

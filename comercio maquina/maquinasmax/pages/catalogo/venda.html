@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Produto - MáquinasMax</title>
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+    <header>
+        <div class="header-inner">
+            <a href="../../index.html" class="logo">MáquinasMax</a>
+            <input type="text" placeholder="Buscar máquinas..." />
+            <div class="header-icons">
+                <a href="#" title="Buscar">🔍</a>
+                <a href="../checkout/locacoes.html" title="Carrinho">🛒</a>
+                <a href="../auth/login.html" title="Perfil">👤</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="detalhe">
+        <div class="detalhe-esquerda">
+            <img src="https://via.placeholder.com/600x450?text=Maquina+Pesada" alt="Produto">
+            <p id="desc-produto">
+                Esta é uma máquina de alta qualidade, perfeitamente mantida e pronta para trabalhar. 
+                Conta com revisão completa e está em excelente estado de funcionamento. 
+                Ideal para projetos de grande porte e obras com demanda contínua.
+            </p>
+        </div>
+
+        <div class="detalhe-direita">
+            <div class="direita-topo">
+                <div id="nome-produto">Escavadeira CAT 320</div>
+                <div id="vendedor-produto">Vendedor: Carlos Mecânica</div>
+            </div>
+
+            <div class="pagamento">
+                <div class="pagamento-label">Formas de Pagamento Aceitas</div>
+                <div class="pagamento-icons">
+                    <span class="pay-badge pay-pix">PIX</span>
+                    <span class="pay-badge pay-boleto">BOLETO</span>
+                    <span class="pay-badge pay-card">CARTÃO</span>
+                </div>
+            </div>
+
+            <div class="estrelas-detalhe">★★★★★</div>
+
+            <div class="preco-detalhe">
+                <div id="preco-produto">R$ 850.000</div>
+                <div id="tipo-produto">Venda</div>
+            </div>
+
+            <div class="botoes">
+                <button id="btn-chat" class="btn-chat">💬 Entrar em Contato</button>
+                <button id="btn-solicitar-compra" class="btn-pagar">🛒 Solicitar Compra</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Chat Modal -->
+    <div class="chat-modal" id="chatModal">
+        <div class="chat-box">
+            <div class="chat-header">
+                <h3>Conversa com Vendedor</h3>
+                <button class="chat-close">✕</button>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="msg-grupo left">
+                    <div class="msg-balao">Olá! Tenho interesse nesta máquina. Posso obter mais informações?</div>
+                </div>
+            </div>
+            <div class="chat-input">
+                <textarea placeholder="Digite sua mensagem..." rows="1"></textarea>
+                <button>➤</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 MáquinasMax — Compra, Venda e Aluguel de Máquinas Pesadas</p>
+    </footer>
+
+    <script src="../../js/main.js"></script>
+    <script>
+        // ===== BANCO DE DADOS DE PRODUTOS =====
+        const PRODUTOS = [
+            {
+                id: 1,
+                nome: 'Betoneira Toyama 400L',
+                vendedor: 'João Silva',
+                preco: 'R$ 8.500',
+                descricao: 'Betoneira de alta capacidade com motor resistente. Ideal para construções em grande escala.',
+                tipo: 'Venda',
+                imagem: 'https://via.placeholder.com/600x450?text=Betoneira+Toyama'
+            },
+            {
+                id: 2,
+                nome: 'Trator JD 5078E',
+                vendedor: 'Maria Santos',
+                preco: 'R$ 1.000 /dia',
+                descricao: 'Trator de grande potência com transmissão sincrônica. Perfeito para trabalhos agrícolas pesados.',
+                tipo: 'Aluguel',
+                imagem: 'https://via.placeholder.com/600x450?text=Trator+JD+5078E'
+            },
+            {
+                id: 3,
+                nome: 'Escavadeira CAT 320',
+                vendedor: 'Carlos Mecânica',
+                preco: 'R$ 850.000',
+                descricao: 'Esta é uma máquina de alta qualidade, perfeitamente mantida e pronta para trabalhar. Conta com revisão completa e está em excelente estado de funcionamento. Ideal para projetos de grande porte e obras com demanda contínua.',
+                tipo: 'Venda',
+                imagem: 'https://via.placeholder.com/600x450?text=Escavadeira+CAT+320'
+            },
+            {
+                id: 4,
+                nome: 'Guindaste Liebherr LTM',
+                vendedor: 'Obra Pesada S.A.',
+                preco: 'R$ 4.200 /dia',
+                descricao: 'Guindaste de grande alcance com capacidade de 500 toneladas. Equipado com tecnologia de ponta.',
+                tipo: 'Aluguel',
+                imagem: 'https://via.placeholder.com/600x450?text=Guindaste+Liebherr'
+            },
+            {
+                id: 5,
+                nome: 'Retroescavadeira Case 580N',
+                vendedor: 'Equipamentos Ltda',
+                preco: 'R$ 220.000',
+                descricao: 'Retroescavadeira versátil com implementos adicionais. Excelente para obra civil e manutenção.',
+                tipo: 'Venda',
+                imagem: 'https://via.placeholder.com/600x450?text=Retroescavadeira+Case'
+            },
+            {
+                id: 6,
+                nome: 'Caminhão Betoneira MB 2428',
+                vendedor: 'Frota Brasil',
+                preco: 'R$ 900 /dia',
+                descricao: 'Caminhão betoneira de alta capacidade com misturador integrado. Ideal para obras de grande porte com demanda contínua de concreto.',
+                tipo: 'Aluguel',
+                imagem: 'https://via.placeholder.com/600x450?text=Caminhao+Betoneira+MB+2428'
+            }
+        ];
+
+        // ===== INICIALIZAÇÃO =====
+        console.log('✓ Página de Produto carregada');
+
+        // Obter ID da URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const produtoId = parseInt(urlParams.get('id')) || 1;
+
+        // Buscar produto no banco
+        const produtoData = PRODUTOS.find(p => p.id === produtoId) || PRODUTOS[0];
+
+        console.log('📦 Produto selecionado:', produtoData);
+
+        // Atualizar elementos da página
+        document.getElementById('nome-produto').textContent = produtoData.nome;
+        document.getElementById('vendedor-produto').textContent = 'Vendedor: ' + produtoData.vendedor;
+        document.getElementById('preco-produto').textContent = produtoData.preco;
+        document.getElementById('tipo-produto').textContent = produtoData.tipo;
+        document.getElementById('desc-produto').textContent = produtoData.descricao;
+        document.querySelector('.detalhe-esquerda img').src = produtoData.imagem;
+        document.querySelector('.detalhe-esquerda img').alt = produtoData.nome;
+
+        // Atualizar título da página
+        document.title = produtoData.nome + ' - MáquinasMax';
+
+        // Obter informações do produto para o carrinho
+        const produtoInfo = {
+            nome: produtoData.nome,
+            preco: produtoData.preco,
+            vendedor: produtoData.vendedor,
+            descricao: produtoData.descricao,
+            url: window.location.href,
+            id: produtoData.id
+        };
+
+        console.log('📦 Produto Info:', produtoInfo);
+
+        // ===== BOTÃO: SOLICITAR COMPRA =====
+        const btnSolicitarCompra = document.getElementById('btn-solicitar-compra');
+        
+        if (btnSolicitarCompra) {
+            btnSolicitarCompra.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('🛒 Clicou em Solicitar Compra');
+                
+                // Desabilitar botão para evitar cliques duplos
+                this.disabled = true;
+                const btnTextoOriginal = this.textContent;
+                
+                // Feedback visual imediato
+                this.textContent = '⏳ Adicionando ao carrinho...';
+                this.style.opacity = '0.7';
+
+                // Simular pequeno delay (como se estivesse salvando)
+                setTimeout(() => {
+                    try {
+                        // Pegar carrinho atual
+                        let carrinho = [];
+                        try {
+                            const carrinhoSalvo = localStorage.getItem('carrinho_maquinasmax');
+                            if (carrinhoSalvo) {
+                                carrinho = JSON.parse(carrinhoSalvo);
+                            }
+                        } catch (err) {
+                            console.warn('⚠️ Erro ao ler carrinho:', err);
+                            carrinho = [];
+                        }
+
+                        // Verificar se já existe no carrinho
+                        const jáExiste = carrinho.some(item => item.id === produtoInfo.id);
+                        
+                        if (jáExiste) {
+                            alert('⚠️ Este produto já está no seu carrinho!');
+                            this.textContent = btnTextoOriginal;
+                            this.disabled = false;
+                            this.style.opacity = '1';
+                            return;
+                        }
+
+                        // Criar item
+                        const item = {
+                            id: produtoInfo.id,
+                            nome: produtoInfo.nome,
+                            preco: produtoInfo.preco,
+                            vendedor: produtoInfo.vendedor,
+                            descricao: produtoInfo.descricao,
+                            quantidade: 1,
+                            data_adicionada: new Date().toLocaleString('pt-BR')
+                        };
+
+                        console.log('✓ Item a adicionar:', item);
+
+                        // Adicionar ao carrinho
+                        carrinho.push(item);
+                        localStorage.setItem('carrinho_maquinasmax', JSON.stringify(carrinho));
+                        
+                        console.log('✓ Carrinho atualizado:', carrinho.length, 'itens');
+
+                        // Feedback de sucesso
+                        this.textContent = '✓ Adicionado com Sucesso!';
+                        this.style.background = 'var(--success)';
+                        this.style.opacity = '1';
+
+                        // Mostrar notificação com melhor feedback
+                        const confirmar = confirm(
+                            `✓ ${produtoInfo.nome} adicionado ao carrinho!\n\n` +
+                            `Valor: ${produtoInfo.preco}\n` +
+                            `Vendedor: ${produtoInfo.vendedor}\n\n` +
+                            `Deseja ir para o carrinho agora?`
+                        );
+
+                        if (confirmar) {
+                            // Redirecionar para checkout
+                            window.location.href = '../checkout/locacoes.html';
+                        } else {
+                            // Restaurar botão se usuário não confirmar
+                            this.textContent = btnTextoOriginal;
+                            this.disabled = false;
+                            this.style.background = '';
+                            this.style.opacity = '1';
+                        }
+
+                    } catch (error) {
+                        console.error('❌ Erro ao adicionar ao carrinho:', error);
+                        alert('❌ Erro ao adicionar ao carrinho. Tente novamente.');
+                        this.textContent = btnTextoOriginal;
+                        this.disabled = false;
+                        this.style.opacity = '1';
+                        this.style.background = '';
+                    }
+                }, 500); // Simular delay de processamento
+            });
+        } else {
+            console.warn('⚠️ Botão "Solicitar Compra" não encontrado!');
+        }
+
+        // ===== BOTÃO: CHAT =====
+        const btnChat = document.getElementById('btn-chat');
+        if (btnChat) {
+            btnChat.addEventListener('click', function() {
+                console.log('💬 Abrindo chat');
+                const chatModal = document.getElementById('chatModal');
+                if (chatModal) {
+                    chatModal.classList.add('open');
+                }
+            });
+        }
+
+        // ===== FECHAR CHAT COM ESC =====
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const chatModal = document.getElementById('chatModal');
+                if (chatModal && chatModal.classList.contains('open')) {
+                    chatModal.classList.remove('open');
+                    console.log('❌ Chat fechado (ESC)');
+                }
+            }
+        });
+
+        // ===== FECHAR CHAT AO CLICAR FORA =====
+        const chatModal = document.getElementById('chatModal');
+        if (chatModal) {
+            chatModal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('open');
+                    console.log('❌ Chat fechado (fora)');
+                }
+            });
+        }
+
+        // ===== FECHAR CHAT COM X =====
+        const chatClose = document.querySelector('.chat-close');
+        if (chatClose) {
+            chatClose.addEventListener('click', function() {
+                document.getElementById('chatModal').classList.remove('open');
+                console.log('❌ Chat fechado (X)');
+            });
+        }
+
+        // ===== CHAT - ENVIAR MENSAGEM =====
+        const chatForm = document.querySelector('.chat-input');
+        if (chatForm) {
+            const textarea = chatForm.querySelector('textarea');
+            const sendBtn = chatForm.querySelector('button');
+
+            if (sendBtn && textarea) {
+                sendBtn.addEventListener('click', function() {
+                    const mensagem = textarea.value.trim();
+                    if (mensagem) {
+                        console.log('💬 Mensagem enviada:', mensagem);
+
+                        // Adicionar mensagem do usuário
+                        const msgDiv = document.createElement('div');
+                        msgDiv.className = 'msg-grupo right';
+                        msgDiv.innerHTML = `<div class="msg-balao">${mensagem}</div>`;
+                        document.getElementById('chatMessages').appendChild(msgDiv);
+
+                        textarea.value = '';
+                        textarea.style.height = 'auto';
+
+                        // Scroll para última mensagem
+                        document.getElementById('chatMessages').scrollTop = document.getElementById('chatMessages').scrollHeight;
+
+                        // Simular resposta do vendedor
+                        setTimeout(() => {
+                            const respostaDiv = document.createElement('div');
+                            respostaDiv.className = 'msg-grupo left';
+                            const respostas = [
+                                'Obrigado! Posso ajudar com mais detalhes sobre a máquina.',
+                                'Qual é a sua dúvida? Estou à disposição!',
+                                'A máquina está em perfeito estado. Quer agendar uma visita?',
+                                'Temos desconto para pagamento à vista!',
+                                'Posso enviar mais fotos se desejar.'
+                            ];
+                            const resposta = respostas[Math.floor(Math.random() * respostas.length)];
+                            respostaDiv.innerHTML = `<div class="msg-balao">${resposta}</div>`;
+                            document.getElementById('chatMessages').appendChild(respostaDiv);
+                            document.getElementById('chatMessages').scrollTop = document.getElementById('chatMessages').scrollHeight;
+                        }, 1000);
+                    }
+                });
+
+                // Enviar com Enter
+                textarea.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        sendBtn.click();
+                    }
+                });
+            }
+        }
+
+        console.log('✓ Produto carregado:', produtoInfo.nome, '-', produtoInfo.preco);
+    </script>

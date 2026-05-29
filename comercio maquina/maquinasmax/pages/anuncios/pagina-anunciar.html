@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Anúncio - MáquinasMax</title>
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+    <style>
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            flex: 1 1 calc(50% - 20px);
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group.full {
+            flex: 1 1 100%;
+        }
+        .form-group.small {
+            flex: 1 1 calc(25% - 20px);
+        }
+        .image-placeholder {
+            height: 150px;
+            background: #f1f1f1;
+            border: 2px dashed #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #888;
+            font-weight: bold;
+            border-radius: 8px;
+        }
+        @media (max-width: 768px) {
+            .form-group {
+                flex: 1 1 100%;
+            }
+            .form-group.small {
+                flex: 1 1 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-inner">
+            <a href="../../index.html" class="logo">MáquinasMax</a>
+            <div style="flex: 1;"></div>
+            <div class="header-icons">
+                <a href="#" title="Buscar">🔍</a>
+                <a href="../checkout/locacoes.html" title="Carrinho">🛒</a>
+                <a href="../auth/login.html" title="Perfil">👤</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="card-center" style="max-width: 800px;">
+            <div style="text-align: center; margin-bottom: 30px;">
+                <div style="width: 80px; height: 80px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 35px; margin: 0 auto 20px; box-shadow: 0 4px 15px rgba(247, 147, 30, 0.3);">📢</div>
+                <h2>Anuncie Sua Máquina</h2>
+                <p style="color: #888; margin-top: 10px;">Preencha as informações abaixo para criar um anúncio profissional</p>
+            </div>
+
+            <form id="adForm">
+                <div class="form-row">
+                    <div class="form-group full">
+                        <label>IMAGEM DO PRODUTO</label>
+                        <div class="image-placeholder">
+                            📷 SELECIONAR IMAGEM
+                        </div>
+                        <input type="file" id="imagem" accept="image/*" style="display: none;">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group full">
+                        <label>DESCRIÇÃO DO PRODUTO</label>
+                        <textarea rows="6" id="descricao" placeholder="Descreva detalhes da máquina..."></textarea>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>NOME</label>
+                        <input type="text" id="nome" required>
+                    </div>
+                    <div class="form-group">
+                        <label>CNPJ / CPF</label>
+                        <input type="text" id="documento" required>
+                    </div>
+                    <div class="form-group">
+                        <label>E-MAIL</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>TELEFONE</label>
+                        <input type="tel" id="telefone" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>CEP</label>
+                        <input type="text" id="cep" required>
+                    </div>
+                    <div class="form-group">
+                        <label>CIDADE</label>
+                        <input type="text" id="cidade" required>
+                    </div>
+                    <div class="form-group small">
+                        <label>UF</label>
+                        <input type="text" id="uf" maxlength="2" required>
+                    </div>
+                    <div class="form-group small">
+                        <label>PAÍS</label>
+                        <input type="text" id="pais" value="Brasil" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group full">
+                        <label>DISPONIBILIDADE E OBSERVAÇÕES ADICIONAIS</label>
+                        <textarea rows="3" id="observacoes"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group full">
+                        <label>VALORES E FORMA DE PAGAMENTO</label>
+                        <input type="text" id="valores" placeholder="Ex: R$ 500,00 / dia - Cartão ou PIX" required>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 15px; margin-top: 30px;">
+                    <button type="button" class="btn-back" style="flex: 1; padding: 14px;" onclick="window.history.back()">VOLTAR</button>
+                    <button type="submit" class="btn-laranja" style="flex: 1;">ANUNCIAR</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2025 MáquinasMax — Compra, Venda e Aluguel de Máquinas Pesadas</p>
+    </footer>
+
+    <script src="../../js/main.js"></script>
+    <script>
+        console.log('✓ Página Anunciar carregada');
+
+        document.querySelector('.image-placeholder').addEventListener('click', function() {
+            document.getElementById('imagem').click();
+        });
+
+        document.getElementById('adForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Coletar dados do formulário
+            const nomeMaquina = document.getElementById('nome').value.trim();
+            const tipoOperacao = document.querySelector('input[name="tipo"]:checked')?.value || 'Venda';
+            const valor = document.getElementById('valores').value.trim();
+            const descricao = document.getElementById('descricao').value.trim();
+            const documento = document.getElementById('documento').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const telefone = document.getElementById('telefone').value.trim();
+            const cidade = document.getElementById('cidade').value.trim();
+            const estado = document.getElementById('uf').value.trim();
+            const cep = document.getElementById('cep').value.trim();
+
+            // Validar campos obrigatórios
+            if (!nomeMaquina || !valor || !descricao) {
+                alert('❌ Preencha todos os campos obrigatórios!');
+                return;
+            }
+
+            // Criar objeto do anúncio
+            const novoAnuncio = {
+                id: new Date().getTime(),
+                nomeMaquina: nomeMaquina,
+                tipoOperacao: tipoOperacao,
+                valor: valor,
+                descricao: descricao,
+                documento: documento,
+                email: email,
+                telefone: telefone,
+                cidade: cidade,
+                estado: estado,
+                cep: cep,
+                dataAnuncio: new Date().toLocaleString('pt-BR'),
+                status: 'ativo'
+            };
+
+            try {
+                // Carregar anúncios existentes
+                let anuncios = JSON.parse(localStorage.getItem('meus_anuncios_maquinasmax')) || [];
+                
+                // Adicionar novo anúncio
+                anuncios.push(novoAnuncio);
+                
+                // Salvar no localStorage
+                localStorage.setItem('meus_anuncios_maquinasmax', JSON.stringify(anuncios));
+
+                console.log('✓ Anúncio criado:', novoAnuncio);
+                console.log('✓ Total de anúncios:', anuncios.length);
+
+                // Feedback
+                alert('✅ Anúncio criado com sucesso!\n\nNúmero do anúncio: ' + novoAnuncio.id + '\n\nVocê será redirecionado para seus anúncios.');
+                
+                // Redirecionar
+                window.location.href = 'pagina-meus-anuncios.html';
+
+            } catch (error) {
+                console.error('❌ Erro ao criar anúncio:', error);
+                alert('❌ Erro ao criar anúncio. Tente novamente.');
+            }
+        });
+
+        // Aplicar máscaras
+        document.getElementById('documento').addEventListener('input', e => {
+            const val = e.target.value.replace(/\D/g, '');
+            if (val.length <= 11) {
+                e.target.value = val.replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+            } else {
+                e.target.value = val.replace(/(\d{2})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+            }
+        });
+
+        document.getElementById('telefone').addEventListener('input', e => mascaraTelefone(e.target));
+        document.getElementById('cep').addEventListener('input', e => mascaraCEP(e.target));
+    </script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - MáquinasMax</title>
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+    <header>
+        <a href="../../index.html" class="logo">MáquinasMax</a>
+        <div style="flex: 1;"></div>
+    </header>
+
+    <main style="min-height: calc(100vh - 100px); display: flex; justify-content: center; align-items: center;">
+        <div class="card-center">
+            <div style="text-align: center; margin-bottom: 30px;">
+                <div style="width: 80px; height: 80px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 35px; margin: 0 auto 20px; box-shadow: 0 4px 15px rgba(247, 147, 30, 0.3);">👤</div>
+                <h2>Bem-vindo</h2>
+                <p style="color: #888; margin-top: 10px;">Entre com sua conta para continuar</p>
+            </div>
+
+            <form id="loginForm">
+                <div class="input-group">
+                    <label>E-mail</label>
+                    <input type="email" id="loginEmail" placeholder="Digite seu e-mail" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Senha</label>
+                    <input type="password" id="loginSenha" placeholder="Digite sua senha" required>
+                </div>
+
+                <button type="submit" class="btn-laranja">Entrar</button>
+            </form>
+
+            <div style="margin-top: 25px; text-align: center;">
+                <a href="cadastro.html" style="font-size: 14px; color: #888; text-decoration: none; transition: 0.2s; display: block; margin-bottom: 10px;">Não possui conta? Faça o cadastro!</a>
+                <a href="esqueci-senha.html" style="font-size: 14px; color: #888; text-decoration: none; transition: 0.2s;">Esqueceu sua senha?</a>
+            </div>
+        </div>
+    </main>
+
+    <footer style="position: fixed; bottom: 0; width: 100%; background: white; padding: 15px; text-align: center; border-top: 1px solid #ddd; font-size: 12px;">
+        <a href="../../index.html" style="color: var(--primary); text-decoration: none; font-weight: 600;">← Voltar</a>
+    </footer>
+
+    <script src="../../js/main.js"></script>
+    <script>
+        console.log('✓ Página Login carregada');
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value.trim();
+            const senha = document.getElementById('loginSenha').value;
+
+            // Validações
+            if (!validarEmail(email)) {
+                alert('❌ E-mail inválido!');
+                return;
+            }
+
+            if (!validarSenha(senha)) {
+                alert('❌ Senha deve ter no mínimo 6 caracteres!');
+                return;
+            }
+
+            // Simular dados do usuário (em produção viriam do backend)
+            const usuarioData = {
+                nome: email.split('@')[0].charAt(0).toUpperCase() + email.split('@')[0].slice(1),
+                email: email,
+                telefone: '(11) 98765-4321',
+                cpf: '123.456.789-00',
+                dataNascimento: '1990-01-15',
+                genero: 'masculino',
+                empresa: '',
+                cnpj: '',
+                profissao: '',
+                dataRegistro: new Date().toLocaleDateString('pt-BR')
+            };
+
+            // Salvar no sessionStorage
+            sessionStorage.setItem('usuario_logado', 'true');
+            sessionStorage.setItem('usuario_dados', JSON.stringify(usuarioData));
+
+            console.log('✓ Login realizado:', usuarioData);
+            
+            // Mostrar feedback
+            const btn = document.querySelector('button[type="submit"]');
+            btn.textContent = '✓ Entrando...';
+            btn.disabled = true;
+
+            // Redirecionar para perfil após 1 segundo
+            setTimeout(() => {
+                window.location.href = '../perfil/minha-conta.html';
+            }, 1000);
+        });
+
+        // Verificar se já está logado
+        window.addEventListener('load', function() {
+            const usuarioLogado = sessionStorage.getItem('usuario_logado');
+            if (usuarioLogado) {
+                console.log('⚠️ Usuário já está logado. Redirecionando...');
+                window.location.href = '../perfil/minha-conta.html';
+            }
+        });
+    </script>
+</body>
+</html>

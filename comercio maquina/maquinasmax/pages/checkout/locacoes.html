@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Carrinho - MáquinasMax</title>
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+    <header>
+        <div class="header-inner">
+            <a href="../../index.html" class="logo">MáquinasMax</a>
+            <div style="flex: 1;"></div>
+            <div class="header-icons">
+                <a href="#" title="Buscar">🔍</a>
+                <a href="locacoes.html" title="Carrinho" style="color: var(--primary); font-weight: bold;">🛒</a>
+                <a href="../auth/login.html" title="Perfil">👤</a>
+            </div>
+        </div>
+    </header>
+
+    <main style="max-width: 900px; margin: 0 auto; padding: 40px 5%; width: 100%;">
+        <h2 class="titulo-secao">Meu Carrinho</h2>
+
+        <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="background: var(--dark); color: white;">
+                        <th style="padding: 15px; text-align: left;">Equipamento</th>
+                        <th style="padding: 15px;">Data</th>
+                        <th style="padding: 15px;">Status</th>
+                        <th style="padding: 15px;">Valor</th>
+                    </tr>
+                </thead>
+                <tbody id="carrinho-tbody">
+                    <!-- Preenchido pelo JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <div id="rodape-carrinho" style="display: none; justify-content: flex-end; gap: 20px; margin-top: 40px;">
+            <div style="text-align: right;">
+                <p style="color: #888; margin-bottom: 10px;">Total de Transações:</p>
+                <p id="total-carrinho" style="font-size: 28px; font-weight: 700; color: var(--primary);">R$ 0,00</p>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px;">
+            <button id="btn-pagamento" class="btn-laranja" style="display: none; padding: 12px 40px; margin-right: 15px;">Ir para Pagamento</button>
+            <a href="../../index.html" class="btn-back" style="display: inline-block; text-decoration: none; padding: 12px 40px;">Continuar Comprando</a>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2025 MáquinasMax — Compra, Venda e Aluguel de Máquinas Pesadas</p>
+    </footer>
+
+    <script src="../../js/main.js"></script>
+    <script>
+        function carregarCarrinho() {
+            const carrinho = JSON.parse(localStorage.getItem('carrinho_maquinasmax')) || [];
+            const tbody = document.getElementById('carrinho-tbody');
+            const rodape = document.getElementById('rodape-carrinho');
+            const btnPagamento = document.getElementById('btn-pagamento');
+
+            // Carrinho vazio
+            if (carrinho.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="4" style="padding: 60px; text-align: center; color: #888;">
+                            <div style="font-size: 40px; margin-bottom: 15px;">🛒</div>
+                            <p style="margin: 0 0 15px 0; font-size: 16px;">Seu carrinho está vazio</p>
+                            <a href="../../index.html" style="color: var(--primary); text-decoration: none; font-weight: 600;">← Voltar ao catálogo</a>
+                        </td>
+                    </tr>
+                `;
+                rodape.style.display = 'none';
+                btnPagamento.style.display = 'none';
+                return;
+            }
+
+            // Tem itens — renderizar
+            let total = 0;
+            let html = '';
+
+            carrinho.forEach((item, index) => {
+                const precoNum = parseFloat(item.preco.replace(/[^\d,]/g, '').replace(',', '.')) || 0;
+                total += precoNum;
+
+                html += `
+                    <tr style="border-bottom: 1px solid #eee;">
+                        <td style="padding: 15px;">
+                            <strong>${item.nome}</strong><br>
+                            <small style="color: #888;">Vendedor: ${item.vendedor || '—'}</small><br>
+                            <small style="color: #aaa;">Adicionado: ${item.data_adicionada || ''}</small>
+                        </td>
+                        <td style="padding: 15px; text-align: center;">${item.data_adicionada || '—'}</td>
+                        <td style="padding: 15px; text-align: center;">
+                            <span style="color: var(--success); font-weight: 700;">● Ativo</span>
+                        </td>
+                        <td style="padding: 15px; text-align: right; font-weight: 700; color: var(--primary);">
+                            ${item.preco}
+                            <br>
+                            <button onclick="removerCarrinho(${index})" style="margin-top: 6px; background: var(--error); color: white; border: none; padding: 5px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 600;">
+                                Remover
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            tbody.innerHTML = html;
+
+            // Mostrar total e botão
+            document.getElementById('total-carrinho').textContent =
+                'R$ ' + total.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+            rodape.style.display = 'flex';
+            btnPagamento.style.display = 'inline-block';
+        }
+
+        function removerCarrinho(index) {
+            if (confirm('Deseja remover este item do carrinho?')) {
+                const carrinho = JSON.parse(localStorage.getItem('carrinho_maquinasmax')) || [];
+                carrinho.splice(index, 1);
+                localStorage.setItem('carrinho_maquinasmax', JSON.stringify(carrinho));
+                carregarCarrinho();
+            }
+        }
+
+        // Botão pagamento — só navega se tiver itens
+        document.getElementById('btn-pagamento').addEventListener('click', function() {
+            const carrinho = JSON.parse(localStorage.getItem('carrinho_maquinasmax')) || [];
+            if (carrinho.length === 0) {
+                alert('Seu carrinho está vazio!');
+                return;
+            }
+            window.location.href = 'pagamento.html';
+        });
+
+        window.addEventListener('load', carregarCarrinho);
+        console.log('✓ Carrinho carregado');
+    </script>
+</body>
+</html>

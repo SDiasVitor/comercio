@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MáquinasMax - Compra, Venda e Aluguel de Máquinas Pesadas</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <a href="index.html" class="logo">MáquinasMax</a>
+      <input id="search-input" type="text" placeholder="Buscar máquinas, marcas..." />
+      <div class="header-icons">
+        <a href="#" id="btn-buscar" title="Buscar">🔍</a>
+        <a href="pages/checkout/locacoes.html" title="Carrinho">🛒</a>
+        <a href="pages/auth/login.html" title="Perfil">👤</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Categorias de máquina -->
+  <nav class="categorias">
+    <a href="#" class="ativo" data-cat="todos">Todos</a>
+    <a href="#" data-cat="caminhao">Caminhão</a>
+    <a href="#" data-cat="carreta">Carretas</a>
+    <a href="#" data-cat="motorhome">Motorhomes</a>
+    <a href="#" data-cat="reboque">Reboque</a>
+    <a href="#" data-cat="trator">Tratores</a>
+    <a href="#" data-cat="escavadeira">Escavadeiras</a>
+    <a href="#" data-cat="onibus">Ônibus</a>
+  </nav>
+
+  <!-- Filtro por tipo (Venda/Aluguel) -->
+  <nav class="filtro-tipo">
+    <a href="#" class="ativo" data-tipo="todos">Todos os tipos</a>
+    <a href="#" data-tipo="venda">Venda</a>
+    <a href="#" data-tipo="aluguel">Aluguel</a>
+  </nav>
+
+  <main>
+    <h2 class="titulo-secao">Anúncios Recentes</h2>
+    <div class="grid">
+      <!-- Card 1 -->
+      <a href="pages/catalogo/venda.html?id=1" class="card" data-categoria="caminhao" data-tipo="venda">
+        <div class="card-tag venda">Venda</div>
+        <div class="card-img"><img src="https://via.placeholder.com/280x200?text=Betoneira+Toyama+400L" alt="Betoneira Toyama 400L" /></div>
+        <div class="card-info">
+          <p class="card-nome">Betoneira Toyama 400L</p>
+          <p class="card-vendedor">João Silva</p>
+          <p class="card-preco">R$ 8.500</p>
+          <div class="estrelas">★★★★☆</div>
+        </div>
+      </a>
+
+      <!-- Card 2 -->
+      <a href="pages/catalogo/venda.html?id=2" class="card" data-categoria="trator" data-tipo="aluguel">
+        <div class="card-tag aluguel">Aluguel</div>
+        <div class="card-img"><img src="https://via.placeholder.com/280x200?text=Trator+JD+5078E" alt="Trator JD 5078E" /></div>
+        <div class="card-info">
+          <p class="card-nome">Trator JD 5078E</p>
+          <p class="card-vendedor">Maria Santos</p>
+          <p class="card-preco">R$ 1.000 <span>/dia</span></p>
+          <div class="estrelas">★★★★☆</div>
+        </div>
+      </a>
+
+      <!-- Card 3 -->
+      <a href="pages/catalogo/venda.html?id=3" class="card" data-categoria="escavadeira" data-tipo="venda">
+        <div class="card-tag venda">Venda</div>
+        <div class="card-img"><img src="https://via.placeholder.com/280x200?text=Escavadeira+CAT+320" alt="Escavadeira CAT 320" /></div>
+        <div class="card-info">
+          <p class="card-nome">Escavadeira CAT 320</p>
+          <p class="card-vendedor">Carlos Mecânica</p>
+          <p class="card-preco">R$ 850.000</p>
+          <div class="estrelas">★★★★★</div>
+        </div>
+      </a>
+
+      <!-- Card 4 -->
+      <a href="pages/catalogo/venda.html?id=4" class="card" data-categoria="caminhao" data-tipo="aluguel">
+        <div class="card-tag aluguel">Aluguel</div>
+        <div class="card-img"><img src="https://via.placeholder.com/280x200?text=Guindaste+Liebherr+LTM" alt="Guindaste Liebherr LTM" /></div>
+        <div class="card-info">
+          <p class="card-nome">Guindaste Liebherr LTM</p>
+          <p class="card-vendedor">Obra Pesada S.A.</p>
+          <p class="card-preco">R$ 4.200 <span>/dia</span></p>
+          <div class="estrelas">★★★★☆</div>
+        </div>
+      </a>
+
+      <!-- Card 5 -->
+      <a href="pages/catalogo/venda.html?id=5" class="card" data-categoria="escavadeira" data-tipo="venda">
+        <div class="card-tag venda">Venda</div>
+        <div class="card-img"><img src="https://via.placeholder.com/280x200?text=Retroescavadeira+Case+580N" alt="Retroescavadeira Case 580N" /></div>
+        <div class="card-info">
+          <p class="card-nome">Retroescavadeira Case 580N</p>
+          <p class="card-vendedor">Equipamentos Ltda</p>
+          <p class="card-preco">R$ 220.000</p>
+          <div class="estrelas">★★★★☆</div>
+        </div>
+      </a>
+
+      <!-- Card 6 -->
+      <a href="pages/catalogo/venda.html?id=6" class="card" data-categoria="caminhao" data-tipo="aluguel">
+        <div class="card-tag aluguel">Aluguel</div>
+        <div class="card-img"><img src="https://via.placeholder.com/280x200?text=Caminhao+Betoneira+MB+2428" alt="Caminhão Betoneira MB 2428" /></div>
+        <div class="card-info">
+          <p class="card-nome">Caminhão Betoneira MB 2428</p>
+          <p class="card-vendedor">Frota Brasil</p>
+          <p class="card-preco">R$ 900 <span>/dia</span></p>
+          <div class="estrelas">★★★★★</div>
+        </div>
+      </a>
+    </div>
+    <p id="sem-resultado" style="display:none; grid-column:1/-1; text-align:center; color:#888; padding:40px 0;">Nenhum resultado encontrado.</p>
+  </main>
+
+  <footer>
+    <p>© 2025 MáquinasMax — Compra, Venda e Aluguel de Máquinas Pesadas | <a href="pages/auth/login.html">Entrar</a> | <a href="pages/auth/cadastro.html">Cadastrar-se</a></p>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

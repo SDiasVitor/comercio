@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finalizar Transação - MáquinasMax</title>
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+    <style>
+        .metodo-card {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            padding: 15px;
+            border: 2px solid #eee;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .metodo-card:hover {
+            border-color: var(--primary);
+            background: rgba(247, 147, 30, 0.02);
+        }
+
+        .metodo-card input[type="radio"]:checked + label {
+            color: var(--primary);
+        }
+
+        .metodo-card.selected {
+            border-color: var(--primary);
+            background: rgba(247, 147, 30, 0.05);
+        }
+
+        .metodo-card label {
+            cursor: pointer;
+            flex: 1;
+            margin: 0;
+        }
+
+        .metodo-card label strong {
+            display: block;
+            color: var(--dark);
+            margin-bottom: 4px;
+        }
+
+        .metodo-card label small {
+            color: #888;
+            font-size: 12px;
+        }
+
+        #payment-options {
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .security-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #f0f8f0;
+            color: var(--success);
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-size: 13px;
+            border-left: 4px solid var(--success);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-inner">
+            <a href="../../index.html" class="logo">MáquinasMax</a>
+            <div style="flex: 1;"></div>
+            <div class="header-icons">
+                <a href="#" title="Buscar">🔍</a>
+                <a href="locacoes.html" title="Carrinho">🛒</a>
+                <a href="../auth/login.html" title="Perfil">👤</a>
+            </div>
+        </div>
+    </header>
+
+    <main style="display: flex; justify-content: center; align-items: center; min-height: calc(100vh - 100px); padding: 40px 20px;">
+        <div class="card-center" style="max-width: 600px;">
+            <div style="text-align: center; margin-bottom: 30px;">
+                <div style="width: 80px; height: 80px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 35px; margin: 0 auto 20px; box-shadow: 0 4px 15px rgba(247, 147, 30, 0.3);">💳</div>
+                <h2>Finalizar Compra</h2>
+                <p style="color: #888; margin-top: 10px;">Escolha a forma de pagamento mais conveniente</p>
+            </div>
+
+            <!-- Resumo do Pedido -->
+            <div style="background: linear-gradient(135deg, #F7931E 0%, #e07d0e 100%); color: white; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                    <div>
+                        <p style="font-size: 12px; opacity: 0.9; margin-bottom: 5px;">TOTAL A PAGAR</p>
+                        <p id="resumo-total" style="font-size: 32px; font-weight: 700; margin: 0;">R$ 0,00</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <p style="font-size: 12px; opacity: 0.9; margin-bottom: 5px;">ITENS</p>
+                        <p id="resumo-itens" style="font-size: 24px; font-weight: 700; margin: 0;">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formas de Pagamento -->
+            <h3 style="margin-bottom: 15px; text-align: left; color: var(--dark);">Forma de Pagamento</h3>
+            
+            <form id="pagamentoForm">
+                <div class="metodo-card" onclick="selecionarMetodo(this, 'PIX')">
+                    <input type="radio" name="pay" id="pix" value="PIX" required style="cursor: pointer;">
+                    <label for="pix" style="margin-left: 12px;">
+                        <strong>💳 PIX</strong>
+                        <small>Liberado na hora (Recomendado)</small>
+                    </label>
+                </div>
+
+                <div class="metodo-card" onclick="selecionarMetodo(this, 'CARTAO')">
+                    <input type="radio" name="pay" id="card" value="CARTAO" style="cursor: pointer;">
+                    <label for="card" style="margin-left: 12px;">
+                        <strong>🏦 Cartão de Crédito</strong>
+                        <small>Até 12x sem juros</small>
+                    </label>
+                </div>
+
+                <div class="metodo-card" onclick="selecionarMetodo(this, 'BOLETO')">
+                    <input type="radio" name="pay" id="boleto" value="BOLETO" style="cursor: pointer;">
+                    <label for="boleto" style="margin-left: 12px;">
+                        <strong>📄 Boleto Bancário</strong>
+                        <small>Compensação em até 2 dias</small>
+                    </label>
+                </div>
+
+                <!-- Container para opções dinâmicas -->
+                <div id="payment-options" style="margin-top: 20px;"></div>
+
+                <!-- Botão Submeter -->
+                <button type="submit" class="btn-laranja" style="margin-top: 20px; width: 100%;">
+                    Confirmar Pagamento
+                </button>
+            </form>
+
+            <!-- Badge de Segurança -->
+            <div style="text-align: center; margin-top: 25px;">
+                <div class="security-badge">
+                    🔒 Segurança SSL 256-bit | PCI DSS
+                </div>
+            </div>
+
+            <!-- Link Voltar -->
+            <div style="text-align: center; margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee;">
+                <a href="locacoes.html" style="font-size: 14px; color: var(--primary); text-decoration: none; font-weight: 600;">← Voltar ao Carrinho</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2025 MáquinasMax — Compra, Venda e Aluguel de Máquinas Pesadas</p>
+    </footer>
+
+    <script src="../../js/main.js"></script>
+    <script src="../../js/payment.js"></script>
+    <script>
+        function selecionarMetodo(elemento, valor) {
+            // Remover seleção anterior
+            document.querySelectorAll('.metodo-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Adicionar seleção atual
+            elemento.classList.add('selected');
+            elemento.querySelector('input[type="radio"]').checked = true;
+            elemento.querySelector('input[type="radio"]').dispatchEvent(new Event('change'));
+        }
+
+        // Carregar resumo do carrinho dinamicamente
+        window.addEventListener('load', function() {
+            const carrinho = JSON.parse(localStorage.getItem('carrinho_maquinasmax')) || [];
+
+            // Se carrinho vazio, voltar para locacoes
+            if (carrinho.length === 0) {
+                alert('Seu carrinho está vazio! Adicione um produto antes de prosseguir.');
+                window.location.href = 'locacoes.html';
+                return;
+            }
+
+            // Calcular total
+            let total = 0;
+            carrinho.forEach(item => {
+                const preco = parseFloat(item.preco.replace(/[^\d,]/g, '').replace(',', '.'));
+                if (!isNaN(preco)) total += preco;
+            });
+
+            // Atualizar resumo no topo
+            document.getElementById('resumo-total').textContent =
+                'R$ ' + total.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+            document.getElementById('resumo-itens').textContent = carrinho.length;
+        });
+
+        // Validação ao submeter
+        document.getElementById('pagamentoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const metodo = document.querySelector('input[name="pay"]:checked');
+            if (!metodo) {
+                alert('Selecione uma forma de pagamento');
+                return;
+            }
+
+            // Acionar processamento do PagamentoManager
+            const pagamentoBtn = document.querySelector('button[type="submit"]');
+            pagamentoBtn.click();
+        });
+    </script>
+</body>
+</html>
