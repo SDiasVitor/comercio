@@ -219,120 +219,6 @@
             color: #1565c0;
         }
 
-        .aluguel-card {
-            background: white;
-            border: 1px solid #e0e0e0;
-            border-radius: 12px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            display: flex;
-            flex-direction: column;
-            cursor: pointer;
-        }
-
-        .aluguel-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 8px 20px rgba(247, 147, 30, 0.2);
-            border-color: var(--primary);
-        }
-
-        .aluguel-img {
-            width: 100%;
-            height: 200px;
-            background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 60px;
-            overflow: hidden;
-        }
-
-        .aluguel-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .aluguel-info {
-            padding: 20px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .aluguel-nome {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--dark);
-            margin: 0 0 8px 0;
-            line-height: 1.3;
-        }
-
-        .aluguel-vendedor {
-            font-size: 13px;
-            color: #888;
-            margin: 0 0 12px 0;
-        }
-
-        .aluguel-preco {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--primary);
-            margin: 0 0 12px 0;
-        }
-
-        .aluguel-data {
-            font-size: 12px;
-            color: #999;
-            margin: 0 0 15px 0;
-        }
-
-        .aluguel-status {
-            display: inline-block;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            margin-bottom: 15px;
-            width: fit-content;
-        }
-
-        .aluguel-acoes {
-            display: flex;
-            gap: 10px;
-            margin-top: auto;
-        }
-
-        .aluguel-btn {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .aluguel-btn-detalhes {
-            background: var(--primary);
-            color: white;
-        }
-
-        .aluguel-btn-detalhes:hover {
-            background: var(--primary-dark);
-        }
-
-        .aluguel-btn-remover {
-            background: #f0f0f0;
-            color: #dc3545;
-        }
-
-        .aluguel-btn-remover:hover {
-            background: #ffebee;
-        }
-
         /* CARDS VISUAIS DE ALUGUÉIS */
         .aluguel-card {
             background: white;
@@ -359,6 +245,7 @@
             align-items: center;
             justify-content: center;
             font-size: 60px;
+            overflow: hidden; /* Garante que a imagem não vaze nas bordas arredondadas do card */
         }
 
         .aluguel-card-conteudo {
@@ -401,11 +288,6 @@
             font-size: 11px;
             font-weight: 700;
             display: inline-block;
-        }
-
-        .status-ativo {
-            background: #e8f5e9;
-            color: #2e7d32;
         }
 
         .aluguel-card-data {
@@ -584,7 +466,7 @@
             </a>
         </div>
 
-        <!-- ÚLTIMOS ALUGUÉIS -->
+        <!-- ÚLTIMOS ALUGUÉIS - TABELA -->
         <h2 class="secao-titulo">🚀 Recentes</h2>
         <div class="ultimos-alugueis">
             <table>
@@ -700,57 +582,28 @@
             const usuario = verificarLogin();
             
             if (usuario) {
-                // Preencher dados
                 document.getElementById('nomeUsuario').textContent = usuario.nome || 'Usuário';
                 document.getElementById('emailUsuario').textContent = usuario.email || 'N/A';
                 document.getElementById('telefonUsuario').textContent = usuario.telefone || 'Não informado';
                 document.getElementById('dataRegistro').textContent = usuario.dataRegistro || 'Recentemente';
                 
-                // Avatar com primeira letra do nome
-                const primeiraLetra = (usuario.nome || 'U')[0].toUpperCase();
-                document.getElementById('avatar').textContent = primeiraLetra;
-
                 console.log('✓ Dados do usuário carregados:', usuario);
             }
         }
 
-        // Carregar aluguéis recentes em CARDS
-        function carregarAlugueis() {
+        // Carregar aluguéis para a TABELA
+        function carregarTabelaAlugueis() {
             try {
                 const carrinho = JSON.parse(localStorage.getItem('carrinho_maquinasmax')) || [];
-                const cardsContainer = document.getElementById('cardsAlugueis');
                 const tabelaAlugueis = document.getElementById('tabelaAlugueis');
+                const totalAlugueis = document.getElementById('totalAlugueis');
                 
-                if (carrinho.length === 0) {
-                    return; // Manter mensagens padrão
+                if(totalAlugueis) {
+                    totalAlugueis.textContent = carrinho.length;
                 }
 
-                // Renderizar CARDS
-                let cardsHtml = '';
-                carrinho.forEach((item, index) => {
-                    cardsHtml += `
-                        <div class="aluguel-card">
-                            <div class="aluguel-img">
-                                🚗
-                            </div>
-                            <div class="aluguel-info">
-                                <h3 class="aluguel-nome">${item.nome}</h3>
-                                <p class="aluguel-vendedor">👤 ${item.vendedor}</p>
-                                <p class="aluguel-preco">${item.preco}</p>
-                                <p class="aluguel-data">📅 ${item.data_adicionada || 'Hoje'}</p>
-                                <span class="aluguel-status status-ativo">● Ativo</span>
-                                <div class="aluguel-acoes">
-                                    <button class="aluguel-btn aluguel-btn-detalhes" onclick="verDetalhes(${index})">Ver Detalhes</button>
-                                    <button class="aluguel-btn aluguel-btn-remover" onclick="removerAluguel(${index})">Remover</button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                });
+                if (carrinho.length === 0) return;
 
-                cardsContainer.innerHTML = cardsHtml;
-
-                // Renderizar TABELA (para compatibilidade)
                 let tabelaHtml = '';
                 carrinho.forEach(item => {
                     tabelaHtml += `
@@ -763,63 +616,101 @@
                     `;
                 });
 
-                tabelaAlugueis.innerHTML = tabelaHtml;
-                document.getElementById('totalAlugueis').textContent = carrinho.length;
-
-                console.log('✓ Cards de aluguéis carregados:', carrinho.length);
+                if(tabelaAlugueis) tabelaAlugueis.innerHTML = tabelaHtml;
 
             } catch (error) {
-                console.error('❌ Erro ao carregar aluguéis:', error);
+                console.error('❌ Erro ao carregar tabela de aluguéis:', error);
+            }
+        }
+
+        // Carregar aluguéis para os CARDS
+        function renderizarCardsAlugueis() {
+            try {
+                const carrinho = JSON.parse(localStorage.getItem("carrinho_maquinasmax")) || [];
+                const containerCards = document.getElementById("cardsAlugueis");
+                
+                if (!containerCards) return;
+
+                if (carrinho.length === 0) {
+                    containerCards.innerHTML = `
+                        <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #999;">
+                            📭 Você ainda não possui aluguéis. <a href="../../index.html" style="color: var(--primary); font-weight: 600;">Explorar catálogo →</a>
+                        </div>
+                    `;
+                    return;
+                }
+
+                let html = "";
+                carrinho.forEach((item, index) => {
+                    // Puxa a imagem do item (salva no localStorage). 
+                    // Se não existir na memória (produtos antigos), usa a betoneira como fallback.
+                    const imagemProduto = item.imagem ? item.imagem : '../../img/betoneira.jpg';
+
+                    html += `
+                        <div class="aluguel-card">
+                            <div class="aluguel-card-imagem">
+                                <!-- Aqui entra a Imagem ao invés do Emoji! -->
+                                <img src="${imagemProduto}" alt="${item.nome}" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="aluguel-card-conteudo">
+                                <p class="aluguel-card-nome">${item.nome}</p>
+                                <p class="aluguel-card-vendedor">📌 ${item.vendedor}</p>
+                                <div class="aluguel-card-info">
+                                    <span class="aluguel-card-preco">${item.preco}</span>
+                                    <span class="aluguel-card-status status-ativo">● ATIVO</span>
+                                </div>
+                                <p class="aluguel-card-data">📅 ${item.data_adicionada}</p>
+                                <div class="aluguel-card-botoes">
+                                    <button class="aluguel-card-btn btn-detalhes" onclick="verDetalhes(${index})">👁️ Ver</button>
+                                    <button class="aluguel-card-btn btn-remover" onclick="removerAluguel(${index})">🗑️ Remover</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                containerCards.innerHTML = html;
+            } catch (error) {
+                console.error("❌ Erro ao renderizar cards:", error);
             }
         }
 
         // Função para ver detalhes do aluguel
-        function verDetalhes(index) {
+        window.verDetalhes = function(index) {
             try {
                 const carrinho = JSON.parse(localStorage.getItem('carrinho_maquinasmax')) || [];
                 const item = carrinho[index];
-                alert(`📦 DETALHES DO ALUGUEL\n\n${item.nome}\n\nVendedor: ${item.vendedor}\nPreço: ${item.preco}\nData: ${item.data_adicionada}\nStatus: ● Ativo\n\nDescição:\n${item.descricao}`);
+                alert(`📦 DETALHES DO ALUGUEL\n\n${item.nome}\n\nVendedor: ${item.vendedor}\nPreço: ${item.preco}\nData: ${item.data_adicionada}\nStatus: ● Ativo\n\nDescrição:\n${item.descricao}`);
             } catch (error) {
                 console.error('❌ Erro:', error);
-                alert('Erro ao carregar detalhes');
             }
-        }
+        };
 
         // Função para remover aluguel
-        function removerAluguel(index) {
-            if (confirm('Tem certeza que deseja remover este aluguel do seu histórico?')) {
-                try {
-                    const carrinho = JSON.parse(localStorage.getItem('carrinho_maquinasmax')) || [];
-                    const item = carrinho[index];
-                    carrinho.splice(index, 1);
-                    localStorage.setItem('carrinho_maquinasmax', JSON.stringify(carrinho));
-                    console.log('✓ Aluguel removido:', item.nome);
-                    carregarAlugueis();
-                    alert(`✓ ${item.nome} foi removido do seu histórico!`);
-                } catch (error) {
-                    console.error('❌ Erro ao remover:', error);
-                    alert('Erro ao remover aluguel');
-                }
+        window.removerAluguel = function(index) {
+            if (confirm("Deseja remover este aluguel do seu histórico?")) {
+                let carrinho = JSON.parse(localStorage.getItem("carrinho_maquinasmax")) || [];
+                carrinho.splice(index, 1);
+                localStorage.setItem("carrinho_maquinasmax", JSON.stringify(carrinho));
+                
+                // Recarrega tudo na tela
+                renderizarCardsAlugueis();
+                carregarTabelaAlugueis();
             }
-        }
+        };
 
         // Carregar anúncios do usuário
         function carregarAnuncios() {
             try {
-                const anuncios = JSON.parse(localStorage.getItem('meus_anuncios_maquinasmax')) || [];
+                const anúncios = JSON.parse(localStorage.getItem('meus_anuncios_maquinasmax')) || [];
                 const tabelaAnuncios = document.getElementById('tabelaAnuncios');
                 const totalAnuncios = document.getElementById('totalAnuncios');
 
-                console.log('📢 Anúncios carregados:', anuncios);
+                totalAnuncios.textContent = anúncios.length;
 
-                totalAnuncios.textContent = anuncios.length;
-
-                if (anuncios.length === 0) {
-                    return; // Manter mensagem padrão
-                }
+                if (anúncios.length === 0) return;
 
                 let html = '';
-                anuncios.forEach((anuncio, index) => {
+                anúncios.forEach((anuncio, index) => {
                     html += `
                         <tr>
                             <td>
@@ -852,19 +743,15 @@
         // Editar anúncio
         window.editarAnuncio = function(index) {
             alert('✏️ Funcionalidade de edição em desenvolvimento!');
-            console.log('Editar anúncio:', index);
         };
 
         // Deletar anúncio
         window.deletarAnuncio = function(index) {
             if (confirm('Tem certeza que deseja remover este anúncio?')) {
                 try {
-                    let anuncios = JSON.parse(localStorage.getItem('meus_anuncios_maquinasmax')) || [];
-                    anuncios.splice(index, 1);
-                    localStorage.setItem('meus_anuncios_maquinasmax', JSON.stringify(anuncios));
-                    
-                    console.log('✓ Anúncio removido');
-                    alert('✓ Anúncio removido com sucesso!');
+                    let anúncios = JSON.parse(localStorage.getItem('meus_anuncios_maquinasmax')) || [];
+                    anúncios.splice(index, 1);
+                    localStorage.setItem('meus_anuncios_maquinasmax', JSON.stringify(anúncios));
                     carregarAnuncios();
                 } catch (error) {
                     console.error('❌ Erro ao deletar:', error);
@@ -887,77 +774,15 @@
             if (confirm('Tem certeza que deseja sair da conta?')) {
                 sessionStorage.removeItem('usuario_logado');
                 sessionStorage.removeItem('usuario_dados');
-                alert('✓ Você foi desconectado com sucesso!');
                 window.location.href = '../auth/login.html';
             }
         }
 
         // Inicializar
-        // Renderizar cards de aluguéis
-        function renderizarCardsAlugueis() {
-            try {
-                const carrinho = JSON.parse(localStorage.getItem("carrinho_maquinasmax")) || [];
-                const containerCards = document.getElementById("cardsAlugueis");
-                
-                if (!containerCards) return;
-
-                if (carrinho.length === 0) {
-                    containerCards.innerHTML = `
-                        <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #999;">
-                            📭 Você ainda não possui aluguéis. <a href="../../index.html" style="color: var(--primary); font-weight: 600;">Explorar catálogo →</a>
-                        </div>
-                    `;
-                    return;
-                }
-
-                let html = "";
-                carrinho.forEach((item, index) => {
-                    const icones = ["🚜", "⛏️", "🏗️", "🚛", "🏗️", "🔧"];
-                    const icone = icones[index % icones.length];
-
-                    html += `
-                        <div class="aluguel-card">
-                            <div class="aluguel-card-imagem">${icone}</div>
-                            <div class="aluguel-card-conteudo">
-                                <p class="aluguel-card-nome">${item.nome}</p>
-                                <p class="aluguel-card-vendedor">📌 ${item.vendedor}</p>
-                                <div class="aluguel-card-info">
-                                    <span class="aluguel-card-preco">${item.preco}</span>
-                                    <span class="aluguel-card-status status-ativo">● ATIVO</span>
-                                </div>
-                                <p class="aluguel-card-data">📅 ${item.data_adicionada}</p>
-                                <div class="aluguel-card-botoes">
-                                    <button class="aluguel-card-btn btn-detalhes" onclick="verDetalhes(${index})">👁️ Ver</button>
-                                    <button class="aluguel-card-btn btn-remover" onclick="removerAluguel(${index})">🗑️ Remover</button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                });
-                containerCards.innerHTML = html;
-            } catch (error) {
-                console.error("❌ Erro ao renderizar cards:", error);
-            }
-        }
-
-        window.verDetalhes = function(id) {
-            alert("Detalhes do aluguel: " + id);
-        };
-
-        window.removerAluguel = function(index) {
-            if (confirm("Deseja remover este aluguel?")) {
-                let carrinho = JSON.parse(localStorage.getItem("carrinho_maquinasmax")) || [];
-                carrinho.splice(index, 1);
-                localStorage.setItem("carrinho_maquinasmax", JSON.stringify(carrinho));
-                renderizarCardsAlugueis();
-                carregarAlugueis();
-            }
-        };
-
         window.addEventListener('load', () => {
-            renderizarCardsAlugueis();
             carregarDadosUsuario();
-            carregarAlugueis();
+            carregarTabelaAlugueis();
+            renderizarCardsAlugueis();
             carregarAnuncios();
         });
 
