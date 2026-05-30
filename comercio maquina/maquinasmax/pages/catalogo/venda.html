@@ -23,7 +23,7 @@
 
     <main class="detalhe">
         <div class="detalhe-esquerda">
-            <img src="https://via.placeholder.com/600x450?text=Maquina+Pesada" alt="Produto">
+            <img src="../../img/betoneira.jpg" alt="Produto">
             <p id="desc-produto">
                 Esta é uma máquina de alta qualidade, perfeitamente mantida e pronta para trabalhar. 
                 Conta com revisão completa e está em excelente estado de funcionamento. 
@@ -60,7 +60,6 @@
         </div>
     </main>
 
-    <!-- Chat Modal -->
     <div class="chat-modal" id="chatModal">
         <div class="chat-box">
             <div class="chat-header">
@@ -94,7 +93,7 @@
                 preco: 'R$ 8.500',
                 descricao: 'Betoneira de alta capacidade com motor resistente. Ideal para construções em grande escala.',
                 tipo: 'Venda',
-                imagem: 'https://via.placeholder.com/600x450?text=Betoneira+Toyama'
+                imagem: '../../img/betoneira.jpg' // <-- Atualizado
             },
             {
                 id: 2,
@@ -103,7 +102,7 @@
                 preco: 'R$ 1.000 /dia',
                 descricao: 'Trator de grande potência com transmissão sincrônica. Perfeito para trabalhos agrícolas pesados.',
                 tipo: 'Aluguel',
-                imagem: 'https://via.placeholder.com/600x450?text=Trator+JD+5078E'
+                imagem: '../../img/Trator JD 5078E.jpg' // <-- Atualizado
             },
             {
                 id: 3,
@@ -112,34 +111,34 @@
                 preco: 'R$ 850.000',
                 descricao: 'Esta é uma máquina de alta qualidade, perfeitamente mantida e pronta para trabalhar. Conta com revisão completa e está em excelente estado de funcionamento. Ideal para projetos de grande porte e obras com demanda contínua.',
                 tipo: 'Venda',
-                imagem: 'https://via.placeholder.com/600x450?text=Escavadeira+CAT+320'
+                imagem: '../../img/Escavadeira CAT 320.jpg' // <-- Atualizado
             },
             {
                 id: 4,
                 nome: 'Guindaste Liebherr LTM',
-                vendedor: 'Obra Pesada S.A.',
-                preco: 'R$ 4.200 /dia',
+                vendedor: 'Pedro Construtora',
+                preco: 'R$ 5.000 /dia',
                 descricao: 'Guindaste de grande alcance com capacidade de 500 toneladas. Equipado com tecnologia de ponta.',
                 tipo: 'Aluguel',
-                imagem: 'https://via.placeholder.com/600x450?text=Guindaste+Liebherr'
+                imagem: '../../img/Guindaste Liebherr LTM.jpg' // <-- Atualizado
             },
             {
                 id: 5,
                 nome: 'Retroescavadeira Case 580N',
-                vendedor: 'Equipamentos Ltda',
-                preco: 'R$ 220.000',
+                vendedor: 'Ana Máquinas',
+                preco: 'R$ 180.000',
                 descricao: 'Retroescavadeira versátil com implementos adicionais. Excelente para obra civil e manutenção.',
                 tipo: 'Venda',
-                imagem: 'https://via.placeholder.com/600x450?text=Retroescavadeira+Case'
+                imagem: '../../img/Retroescavadeira Case 580N.webp' // <-- Atualizado (Atenção à extensão .webp)
             },
             {
                 id: 6,
-                nome: 'Caminhão Betoneira MB 2428',
-                vendedor: 'Frota Brasil',
-                preco: 'R$ 900 /dia',
-                descricao: 'Caminhão betoneira de alta capacidade com misturador integrado. Ideal para obras de grande porte com demanda contínua de concreto.',
+                nome: 'Compactador Betoneira MB 2428',
+                vendedor: 'Roberto Equipamentos',
+                preco: 'R$ 2.500 /dia',
+                descricao: 'Compactador vibratório de alta frequência. Compacta asfalto e concreto com eficiência máxima.',
                 tipo: 'Aluguel',
-                imagem: 'https://via.placeholder.com/600x450?text=Caminhao+Betoneira+MB+2428'
+                imagem: '../../img/image.webp' // <-- Atualizado (Atenção à extensão .webp)
             }
         ];
 
@@ -161,6 +160,8 @@
         document.getElementById('preco-produto').textContent = produtoData.preco;
         document.getElementById('tipo-produto').textContent = produtoData.tipo;
         document.getElementById('desc-produto').textContent = produtoData.descricao;
+        
+        // Aplica a imagem respectiva na tela
         document.querySelector('.detalhe-esquerda img').src = produtoData.imagem;
         document.querySelector('.detalhe-esquerda img').alt = produtoData.nome;
 
@@ -221,13 +222,14 @@
                             return;
                         }
 
-                        // Criar item
+                        // Criar item (incluindo a imagem do produto para aparecer no carrinho depois)
                         const item = {
                             id: produtoInfo.id,
                             nome: produtoInfo.nome,
                             preco: produtoInfo.preco,
                             vendedor: produtoInfo.vendedor,
                             descricao: produtoInfo.descricao,
+                            imagem: produtoData.imagem,
                             quantidade: 1,
                             data_adicionada: new Date().toLocaleString('pt-BR')
                         };
@@ -376,3 +378,5 @@
 
         console.log('✓ Produto carregado:', produtoInfo.nome, '-', produtoInfo.preco);
     </script>
+</body>
+</html>
